@@ -4,14 +4,11 @@
 ```
 usage: charucoBoardCalibration.py [-h] [-f FILE] [-s SIZE] imgs [imgs ...]
 
-positional arguments:
-  imgs                  list of images for calibration
-
 optional arguments:
   -h, --help            show this help message and exit
   -f FILE, --file FILE  ouput calibration filename
   -s SIZE, --size SIZE  size of squares in meters
-
+  -i IMAGES, --images   number of images for calibration
 ```
 #### Example
 ```
