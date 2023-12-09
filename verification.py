@@ -40,10 +40,6 @@ if __name__ == "__main__":
             # Undistort the image
             undistorted_image = undistortImage(original_image, camera_matrix, distortion_coefficients)
 
-            # Save undistorted image to the output folder
-            output_path = os.path.join(output_folder, f'undistorted_{image_filename}')
-            cv2.imwrite(output_path, undistorted_image)
-
             # Display the original and undistorted images
             cv2.imshow('Original Image', original_image)
             cv2.imshow('Undistorted Image', undistorted_image)
