@@ -1,17 +1,45 @@
 import cv2
 import os
 import time
+from picamera2 import Picamera2
+
+
+FRAME_SIZES = [
+    (426, 240),   # 240p
+    (640, 360),   # 360p
+    (854, 480),   # 480p
+    (1280, 720),  # 720p
+    (1920, 1080)  # 1080p
+]
+FRAME_SIZE = FRAME_SIZES[3]
+
+def init_camera():
+    print("Initializing Camera...")
+
+    cam = Picamera2()
+
+    cam.preview_configuration.main.size = FRAME_SIZE
+    cam.preview_configuration.main.format = "RGB888"
+    cam.preview_configuration.align()
+    cam.configure("preview")
+
+    cam.start()
+
+    time.sleep(1)
+
+    print("Initialized Camera...")
+    return cam
 
 # Get the current script's directory
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Open the default camera (usually 0, or you can specify a different camera index)
-cap = cv2.VideoCapture(0)
+# Open the rpi camera
+camera = init_camera()
 time.sleep(2)
 
-if not cap.isOpened():
-    print("Error: Could not open camera.")
-    exit()
+# if not cap.isOpened():
+#     print("Error: Could not open camera.")
+#     exit()
 
 # Create the 'images' folder in the same directory as the script if it doesn't exist
 images_folder = os.path.join(script_dir, "images")
@@ -22,11 +50,11 @@ index = 1
 
 while True:
     # Read a frame from the camera
-    ret, frame = cap.read()
+    frame = camera.capture_array()
 
-    if not ret:
-        print("Error: Failed to capture frame.")
-        break
+    # if not ret:
+    #     print("Error: Failed to capture frame.")
+    #     break
 
     # Display the frame
     cv2.imshow("Preview", frame)
